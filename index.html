@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casa do Damian</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .scene {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+    .visible {
+      display: block;
+    }
+    .button {
+      position: absolute;
+      padding: 10px 16px;
+      background-color: #222;
+      border: 2px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .button:hover {
+      background-color: #444;
+    }
+    .investigate-button {
+      display: none;
+      position: absolute;
+      padding: 10px;
+      background-color: crimson;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <!-- Hall de Entrada -->
+    <div id="hall" class="scene visible" style="background-image: url('hall-entrada.png');">
+      <div class="button" style="top: 60%; left: 45%;" onclick="changeRoom('sala')">Entrar na Sala</div>
+    </div>
+
+    <!-- Sala -->
+    <div id="sala" class="scene" style="background-image: url('sala.png');">
+      <div class="button" style="top: 5%; left: 5%;" onclick="changeRoom('hall')">Voltar</div>
+      <div class="button" style="top: 65%; left: 60%;" onclick="checkObject('isqueiro')">Prateleira</div>
+    </div>
+
+    <!-- Banheiro -->
+    <div id="banheiro" class="scene" style="background-image: url('banheiro.png');">
+      <div class="button" style="top: 5%; left: 5%;" onclick="changeRoom('sala')">Voltar</div>
+      <div class="button" style="top: 60%; left: 50%;" onclick="checkObject('roupa')">Cesto de Roupa</div>
+    </div>
+
+    <!-- Botão de Investigar -->
+    <button id="investigate-btn" class="investigate-button">Investigar</button>
+  </div>
+
+  <script>
+    const scenes = document.querySelectorAll('.scene');
+    const investigateBtn = document.getElementById('investigate-btn');
+    let currentObject = '';
+
+    function changeRoom(roomId) {
+      scenes.forEach(scene => scene.classList.remove('visible'));
+      document.getElementById(roomId).classList.add('visible');
+      investigateBtn.style.display = 'none';
+    }
+
+    function checkObject(objectId) {
+      currentObject = objectId;
+      const btn = event.target;
+      investigateBtn.style.top = `${btn.offsetTop + 40}px`;
+      investigateBtn.style.left = `${btn.offsetLeft}px`;
+      investigateBtn.style.display = 'block';
+    }
+
+    investigateBtn.onclick = () => {
+      alert(`Você encontrou algo em ${currentObject}`);
+      investigateBtn.style.display = 'none';
+    };
+  </script>
+</body>
+</html>
+
